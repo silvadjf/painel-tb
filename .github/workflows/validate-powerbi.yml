@@ -35,7 +35,27 @@ jobs:
       - name: Install JSON Schema validator
         run: python -m pip install --disable-pip-version-check jsonschema
 
+      - name: Preflight JSON syntax
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          bad = []
+          for p in Path('powerbi').rglob('*.json'):
+              try:
+                  json.loads(p.read_text(encoding='utf-8'))
+              except Exception as e:
+                  bad.append((str(p), str(e)))
+          for path, err in bad:
+              print(f'INVALID JSON: {path}: {err}')
+          if bad:
+              raise SystemExit(1)
+          print('All *.json files parse successfully')
+          PY
+
       - name: Run bounded critic
+        if: success()
         run: python tools/critico_powerbi.py
 
       - name: Upload validation reports
