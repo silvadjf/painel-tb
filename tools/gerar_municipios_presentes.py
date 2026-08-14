@@ -9,6 +9,7 @@ que usa os seis primeiros dígitos para casar com municipios.json.
 from __future__ import annotations
 
 import csv
+import gzip
 import json
 import time
 import urllib.request
@@ -25,10 +26,16 @@ def fetch_json(url: str):
         headers={
             "User-Agent": "painel-tb-powerbi-validation/1.0",
             "Accept": "application/json",
+            "Accept-Encoding": "gzip",
         },
     )
     with urllib.request.urlopen(req, timeout=30) as r:
-        return json.loads(r.read().decode("utf-8"))
+        raw = r.read()
+        encoding = (r.headers.get("Content-Encoding") or "").lower()
+        if encoding == "gzip" or raw[:2] == b"\x1f\x8b":
+            raw = gzip.decompress(raw)
+        charset = r.headers.get_content_charset() or "utf-8"
+        return json.loads(raw.decode(charset))
 
 
 def main() -> None:
