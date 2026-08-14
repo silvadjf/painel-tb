@@ -1,0 +1,15 @@
+relationship Fato_Indicadores_Dim_UF
+	fromColumn: Fato_Indicadores.CodUF
+	toColumn: Dim_UF.CodUF
+
+relationship Fato_Indicadores_Dim_Municipio
+	fromColumn: Fato_Indicadores.CodMunicipio
+	toColumn: Dim_Municipio.CodMunicipio
+
+relationship Fato_Indicadores_Dim_Indicador
+	fromColumn: Fato_Indicadores.IndicadorID
+	toColumn: Dim_Indicador.IndicadorID
+
+relationship Fato_Indicadores_Dim_Tempo
+	fromColumn: Fato_Indicadores.Ano
+	toColumn: Dim_Tempo.Ano
