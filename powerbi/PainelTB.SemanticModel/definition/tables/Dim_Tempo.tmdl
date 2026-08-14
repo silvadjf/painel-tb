@@ -1,0 +1,19 @@
+table Dim_Tempo
+
+	column Ano
+		dataType: int64
+		isKey
+		sourceColumn: Ano
+		summarizeBy: none
+
+	partition Dim_Tempo = m
+		mode: import
+		source =
+			let
+				Fonte = Json.Document(Web.Contents("https://raw.githubusercontent.com/silvadjf/painel-tb/main/src/dados/indicadores.json")),
+				R0 = Record.ToTable(Fonte[brasil][indicadores]),
+				R1 = Table.ExpandRecordColumn(R0, "Value", {"ano"}, {"Ano"}),
+				R2 = Table.Distinct(Table.SelectColumns(R1, {"Ano"})),
+				R3 = Table.Sort(Table.TransformColumnTypes(R2, {{"Ano", Int64.Type}}), {{"Ano", Order.Ascending}})
+			in
+				R3
