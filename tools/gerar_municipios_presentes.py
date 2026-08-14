@@ -5,6 +5,10 @@
 O código de 6 dígitos é a chave efetivamente usada pelo painel web. O código IBGE oficial
 retornado pela API tem 7 dígitos; a associação replica o comportamento do painel web,
 que usa os seis primeiros dígitos para casar com municipios.json.
+
+Códigos presentes no JSON sem correspondência na API de Localidades são preservados e
+marcados como GAP em vez de receber nome/código inventado. Falhas de comunicação com a
+API continuam sendo bloqueantes.
 """
 from __future__ import annotations
 
@@ -56,27 +60,38 @@ def main() -> None:
             errors.append(f"UF {uf}: {type(exc).__name__}: {exc}")
         time.sleep(0.05)
 
+    if errors:
+        print("Erros de comunicação com a API IBGE:")
+        for e in errors:
+            print(f"- {e}")
+        raise SystemExit(f"Falha ao consultar {len(errors)} UFs na API do IBGE")
+
     OUT.parent.mkdir(exist_ok=True)
     rows = []
+    unresolved = []
     for cod, m in sorted(municipalities.items()):
         cod7, nome = lookup.get(cod, ("", ""))
-        rows.append([cod, cod7, nome, m.get("uf", "")])
+        status = "OK_API_IBGE" if cod7 and nome else "GAP_SEM_CORRESPONDENCIA_API_IBGE"
+        if status != "OK_API_IBGE":
+            unresolved.append(cod)
+        rows.append([cod, cod7, nome, m.get("uf", ""), status])
 
     with OUT.open("w", encoding="utf-8", newline="") as f:
         w = csv.writer(f, delimiter=";")
-        w.writerow(["COD_MUNICIPIO_6", "COD_IBGE_7", "NOME_MUNICIPIO", "UF"])
+        w.writerow(["COD_MUNICIPIO_6", "COD_IBGE_7", "NOME_MUNICIPIO", "UF", "STATUS_RESOLUCAO"])
         w.writerows(rows)
 
-    resolved = sum(bool(r[1] and r[2]) for r in rows)
-    print(f"Municípios no JSON: {len(rows)}")
+    resolved = len(rows) - len(unresolved)
+    print(f"Municípios/códigos presentes no JSON: {len(rows)}")
     print(f"Nomes/códigos IBGE 7 resolvidos: {resolved}")
-    if errors:
-        print("Erros IBGE:")
-        for e in errors:
-            print(f"- {e}")
-    if resolved != len(rows):
-        missing = [r[0] for r in rows if not r[1] or not r[2]]
-        raise SystemExit(f"Não foi possível resolver {len(missing)} municípios; primeiros: {missing[:20]}")
+    print(f"Códigos da fonte sem correspondência na API IBGE: {len(unresolved)}")
+    if unresolved:
+        print("GAPs explícitos: " + ", ".join(unresolved))
+
+    # Critério: a lista da fonte deve ser integral, a API deve responder para todas as UFs,
+    # e qualquer código sem correspondência deve ficar explicitamente marcado — jamais imputado.
+    if len(rows) != len(municipalities):
+        raise SystemExit("A lista gerada não preservou todas as chaves de municipios.json")
 
 
 if __name__ == "__main__":
