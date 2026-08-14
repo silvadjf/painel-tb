@@ -18,7 +18,7 @@
     },
     "visualContainerObjects": {
       "title": [{"properties": {"show": {"expr": {"Literal": {"Value": "true"}}}, "text": {"expr": {"Literal": {"Value": "'Classificação das 27 UFs'"}}}}}],
-      "subTitle": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}]
+      "subTitle": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}]
     }
   }
 }
