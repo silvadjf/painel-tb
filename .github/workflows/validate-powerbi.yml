@@ -6,6 +6,7 @@ on:
       - 'powerbi/**'
       - 'tools/validar_powerbi.py'
       - 'tools/critico_powerbi.py'
+      - 'tools/gerar_municipios_presentes.py'
       - 'docs/fonte_da_verdade.md'
       - 'docs/metodologia.md'
       - '.github/workflows/validate-powerbi.yml'
@@ -14,6 +15,7 @@ on:
       - 'powerbi/**'
       - 'tools/validar_powerbi.py'
       - 'tools/critico_powerbi.py'
+      - 'tools/gerar_municipios_presentes.py'
       - 'docs/fonte_da_verdade.md'
       - 'docs/metodologia.md'
       - '.github/workflows/validate-powerbi.yml'
@@ -22,7 +24,7 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,8 +34,10 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install JSON Schema validator
-        run: python -m pip install --disable-pip-version-check jsonschema
+      - name: Install validators
+        run: |
+          python -m pip install --disable-pip-version-check jsonschema
+          npm install -g @microsoft/powerbi-report-authoring-cli@latest
 
       - name: Preflight JSON syntax
         shell: bash
@@ -54,9 +58,28 @@ jobs:
           print('All *.json files parse successfully')
           PY
 
+      - name: Validate PBIR with Microsoft CLI
+        run: powerbi-report-author validate powerbi/PainelTB.Report
+
       - name: Run bounded critic
-        if: success()
         run: python tools/critico_powerbi.py
+
+      - name: Generate complete municipality truth list
+        run: python tools/gerar_municipios_presentes.py
+
+      - name: Commit generated municipality list
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          if git diff --quiet -- docs/municipios_presentes.csv; then
+            echo 'Municipality list unchanged.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/municipios_presentes.csv
+          git commit -m 'docs(powerbi): refresh municipality source-of-truth list'
+          git push
 
       - name: Upload validation reports
         if: always()
