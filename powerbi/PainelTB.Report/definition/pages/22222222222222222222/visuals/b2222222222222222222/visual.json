@@ -1,0 +1,42 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "b2222222222222222222",
+  "position": {"x": 30, "y": 30, "z": 1000, "height": 640, "width": 1220, "tabOrder": 1000},
+  "visual": {
+    "visualType": "azureMap",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_UF"}}, "Property": "NomeUF"}},
+              "queryRef": "Dim_UF.NomeUF",
+              "nativeQueryRef": "NomeUF"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_UF"}}, "Property": "GrupoFonte"}},
+              "queryRef": "Dim_UF.GrupoFonte",
+              "nativeQueryRef": "GrupoFonte"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_UF"}}, "Property": "SiglaUF"}}, "queryRef": "Dim_UF.SiglaUF", "nativeQueryRef": "SiglaUF"},
+            {"field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Medidas"}}, "Property": "Escore UF"}}, "queryRef": "Medidas.Escore UF", "nativeQueryRef": "Escore UF"},
+            {"field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Medidas"}}, "Property": "Indicadores avaliáveis UF"}}, "queryRef": "Medidas.Indicadores avaliáveis UF", "nativeQueryRef": "Indicadores avaliáveis UF"},
+            {"field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Medidas"}}, "Property": "Alerta instabilidade UF"}}, "queryRef": "Medidas.Alerta instabilidade UF", "nativeQueryRef": "Alerta instabilidade UF"}
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [{"properties": {"show": {"expr": {"Literal": {"Value": "true"}}}, "text": {"expr": {"Literal": {"Value": "'Desempenho por unidade da Federação'"}}}}}],
+      "subTitle": [{"properties": {"show": {"expr": {"Literal": {"Value": "true"}}}, "text": {"expr": {"Literal": {"Value": "'Grupo armazenado no mesmo JSON do painel web'"}}}}}]
+    }
+  }
+}
