@@ -71,7 +71,7 @@ jobs:
         if: github.event_name == 'push'
         shell: bash
         run: |
-          if git diff --quiet -- docs/municipios_presentes.csv; then
+          if [ -z "$(git status --porcelain -- docs/municipios_presentes.csv)" ]; then
             echo 'Municipality list unchanged.'
             exit 0
           fi
