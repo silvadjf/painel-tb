@@ -1,0 +1,65 @@
+table Dim_UF
+
+	column CodUF
+		dataType: string
+		isKey
+		sourceColumn: CodUF
+		summarizeBy: none
+
+	column NomeUF
+		dataType: string
+		dataCategory: StateOrProvince
+		sourceColumn: NomeUF
+		summarizeBy: none
+
+	column SiglaUF
+		dataType: string
+		sourceColumn: SiglaUF
+		summarizeBy: none
+
+	column Regiao
+		dataType: string
+		sourceColumn: Regiao
+		summarizeBy: none
+
+	column AvaliaveisFonte
+		dataType: double
+		sourceColumn: AvaliaveisFonte
+		summarizeBy: none
+
+	column AtingidosFonte
+		dataType: double
+		sourceColumn: AtingidosFonte
+		summarizeBy: none
+
+	column EscoreFonte
+		dataType: double
+		sourceColumn: EscoreFonte
+		summarizeBy: none
+
+	column EscorePctFonte
+		dataType: double
+		sourceColumn: EscorePctFonte
+		summarizeBy: none
+
+	column GrupoFonte
+		dataType: string
+		sourceColumn: GrupoFonte
+		summarizeBy: none
+
+	column AlertaFonte
+		dataType: string
+		sourceColumn: AlertaFonte
+		summarizeBy: none
+
+	partition Dim_UF = m
+		mode: import
+		source =
+			let
+				Fonte = Json.Document(Web.Contents("https://raw.githubusercontent.com/silvadjf/painel-tb/main/src/dados/indicadores.json")),
+				T0 = Table.FromRecords(Fonte[ufs]),
+				T1 = Table.SelectColumns(T0, {"cod", "nome", "sigla", "regiao", "avaliaveis", "atingidos", "escore", "escorePct", "grupo", "alerta"}),
+				T2 = Table.RenameColumns(T1, {{"cod", "CodUF"}, {"nome", "NomeUF"}, {"sigla", "SiglaUF"}, {"regiao", "Regiao"}, {"avaliaveis", "AvaliaveisFonte"}, {"atingidos", "AtingidosFonte"}, {"escore", "EscoreFonte"}, {"escorePct", "EscorePctFonte"}, {"grupo", "GrupoFonte"}, {"alerta", "AlertaFonte"}}),
+				Tipos = Table.TransformColumnTypes(T2, {{"CodUF", type text}, {"NomeUF", type text}, {"SiglaUF", type text}, {"Regiao", type text}, {"AvaliaveisFonte", type number}, {"AtingidosFonte", type number}, {"EscoreFonte", type number}, {"EscorePctFonte", type number}, {"GrupoFonte", type text}, {"AlertaFonte", type text}})
+			in
+				Tipos
