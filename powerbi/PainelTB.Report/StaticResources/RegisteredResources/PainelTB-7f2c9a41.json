@@ -1,0 +1,28 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/powerbi-desktop-samples/main/Report%20Theme%20JSON%20Schema/reportThemeSchema-2.154.json",
+  "name": "PainelTB-7f2c9a41.json",
+  "dataColors": ["#2E6FAD", "#D9B53C", "#C62828", "#667085", "#007C91", "#6B4FA1", "#A64B00", "#3F7D20"],
+  "good": "#2E6FAD",
+  "neutral": "#D9B53C",
+  "bad": "#C62828",
+  "foreground": "#111827",
+  "background": "#FFFFFF",
+  "tableAccent": "#2E6FAD",
+  "textClasses": {
+    "title": {"fontFace": "Segoe UI Semibold", "fontSize": 14, "color": "#111827"},
+    "label": {"fontFace": "Segoe UI", "fontSize": 10, "color": "#344054"},
+    "callout": {"fontFace": "Segoe UI Semibold", "fontSize": 24, "color": "#111827"}
+  },
+  "visualStyles": {
+    "tableEx": {
+      "*": {
+        "columnHeaders": [{"autoSizeColumnWidth": true, "columnAdjustment": "growToFit"}]
+      }
+    },
+    "pivotTable": {
+      "*": {
+        "columnHeaders": [{"autoSizeColumnWidth": true, "columnAdjustment": "growToFit"}]
+      }
+    }
+  }
+}
