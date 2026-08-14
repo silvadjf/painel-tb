@@ -26,7 +26,6 @@
         },
         "Tooltips": {
           "projections": [
-            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_UF"}}, "Property": "SiglaUF"}}, "queryRef": "Dim_UF.SiglaUF", "nativeQueryRef": "SiglaUF"},
             {"field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Medidas"}}, "Property": "Escore UF"}}, "queryRef": "Medidas.Escore UF", "nativeQueryRef": "Escore UF"},
             {"field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Medidas"}}, "Property": "Indicadores avaliáveis UF"}}, "queryRef": "Medidas.Indicadores avaliáveis UF", "nativeQueryRef": "Indicadores avaliáveis UF"},
             {"field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Medidas"}}, "Property": "Alerta instabilidade UF"}}, "queryRef": "Medidas.Alerta instabilidade UF", "nativeQueryRef": "Alerta instabilidade UF"}
