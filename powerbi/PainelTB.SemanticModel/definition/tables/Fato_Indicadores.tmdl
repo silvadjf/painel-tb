@@ -1,0 +1,183 @@
+table Fato_Indicadores
+
+	column Nivel
+		dataType: string
+		sourceColumn: Nivel
+		summarizeBy: none
+
+	column CodTerritorio
+		dataType: string
+		isHidden
+		sourceColumn: CodTerritorio
+		summarizeBy: none
+
+	column CodUF
+		dataType: string
+		isHidden
+		sourceColumn: CodUF
+		summarizeBy: none
+
+	column CodMunicipio
+		dataType: string
+		isHidden
+		sourceColumn: CodMunicipio
+		summarizeBy: none
+
+	column IndicadorID
+		dataType: string
+		isHidden
+		sourceColumn: IndicadorID
+		summarizeBy: none
+
+	column Ano
+		dataType: int64
+		isHidden
+		sourceColumn: Ano
+		summarizeBy: none
+
+	column Numerador
+		dataType: double
+		sourceColumn: Numerador
+		summarizeBy: sum
+
+	column Denominador
+		dataType: double
+		sourceColumn: Denominador
+		summarizeBy: sum
+
+	column Valor
+		dataType: double
+		sourceColumn: Valor
+		summarizeBy: none
+
+	column Referencia
+		dataType: double
+		sourceColumn: Referencia
+		summarizeBy: none
+
+	column PontoFonte
+		dataType: double
+		sourceColumn: PontoFonte
+		summarizeBy: none
+
+	column Flag
+		dataType: string
+		sourceColumn: Flag
+		summarizeBy: none
+
+	column AvaliaveisFonte
+		dataType: double
+		isHidden
+		sourceColumn: AvaliaveisFonte
+		summarizeBy: none
+
+	column AtingidosFonte
+		dataType: double
+		isHidden
+		sourceColumn: AtingidosFonte
+		summarizeBy: none
+
+	column EscoreFonte
+		dataType: double
+		sourceColumn: EscoreFonte
+		summarizeBy: none
+
+	column EscorePctFonte
+		dataType: double
+		sourceColumn: EscorePctFonte
+		summarizeBy: none
+
+	column GrupoFonte
+		dataType: string
+		sourceColumn: GrupoFonte
+		summarizeBy: none
+
+	column AlertaFonte
+		dataType: string
+		sourceColumn: AlertaFonte
+		summarizeBy: none
+
+	partition Fato_Indicadores = m
+		mode: import
+		source =
+			let
+				UrlUF = "https://raw.githubusercontent.com/silvadjf/painel-tb/main/src/dados/indicadores.json",
+				UrlMunicipios = "https://raw.githubusercontent.com/silvadjf/painel-tb/main/public/dados/municipios.json",
+				FonteUF = Json.Document(Web.Contents(UrlUF)),
+				Territorios = List.Combine({{FonteUF[brasil]}, FonteUF[ufs]}),
+				TabelaTerritorios = Table.FromRecords(Territorios),
+				ComLinhasUF = Table.AddColumn(
+					TabelaTerritorios,
+					"Linhas",
+					each
+						let
+							Cod = Text.From([cod]),
+							NivelLocal = Text.From([nivel]),
+							CodUFLocal = if NivelLocal = "UF" then Cod else null,
+							Aval = try Number.From([avaliaveis]) otherwise null,
+							Ating = try Number.From([atingidos]) otherwise null,
+							Esc = try Number.From([escore]) otherwise null,
+							EscPct = try Number.From([escorePct]) otherwise null,
+							Grupo = try Text.From([grupo]) otherwise null,
+							Alerta = try Text.From([alerta]) otherwise null,
+							Ind = Record.ToTable([indicadores]),
+							Exp = Table.ExpandRecordColumn(Ind, "Value", {"ano", "num", "den", "valor", "ref", "ponto", "flag"}, {"Ano", "Numerador", "Denominador", "Valor", "Referencia", "PontoFonte", "Flag"}),
+							Ren = Table.RenameColumns(Exp, {{"Name", "IndicadorID"}}),
+							C1 = Table.AddColumn(Ren, "Nivel", each NivelLocal, type text),
+							C2 = Table.AddColumn(C1, "CodTerritorio", each Cod, type text),
+							C3 = Table.AddColumn(C2, "CodUF", each CodUFLocal, type text),
+							C4 = Table.AddColumn(C3, "CodMunicipio", each null, type text),
+							C5 = Table.AddColumn(C4, "AvaliaveisFonte", each Aval, type number),
+							C6 = Table.AddColumn(C5, "AtingidosFonte", each Ating, type number),
+							C7 = Table.AddColumn(C6, "EscoreFonte", each Esc, type number),
+							C8 = Table.AddColumn(C7, "EscorePctFonte", each EscPct, type number),
+							C9 = Table.AddColumn(C8, "GrupoFonte", each Grupo, type text),
+							C10 = Table.AddColumn(C9, "AlertaFonte", each Alerta, type text)
+						in
+							C10,
+					type table
+				),
+				UF = Table.Combine(ComLinhasUF[Linhas]),
+				Refs0 = Record.ToTable(FonteUF[brasil][indicadores]),
+				Refs1 = Table.ExpandRecordColumn(Refs0, "Value", {"ano", "ref"}, {"AnoRef", "ReferenciaRef"}),
+				Refs = Table.RenameColumns(Refs1, {{"Name", "IndicadorID"}}),
+				FonteMunicipios = Json.Document(Web.Contents(UrlMunicipios)),
+				Mun0 = Record.ToTable(FonteMunicipios[municipios]),
+				Mun1 = Table.RenameColumns(Mun0, {{"Name", "CodMunicipio"}, {"Value", "Registro"}}),
+				ComLinhasMun = Table.AddColumn(
+					Mun1,
+					"Linhas",
+					each
+						let
+							CodMun = Text.From([CodMunicipio]),
+							R = [Registro],
+							Ind = Record.ToTable(R[ind]),
+							Ren = Table.RenameColumns(Ind, {{"Name", "IndicadorID"}, {"Value", "Array"}}),
+							N = Table.AddColumn(Ren, "Numerador", each try Number.From([Array]{0}) otherwise null, type number),
+							D = Table.AddColumn(N, "Denominador", each try Number.From([Array]{1}) otherwise null, type number),
+							V = Table.AddColumn(D, "Valor", each try Number.From([Array]{2}) otherwise null, type number),
+							P = Table.AddColumn(V, "PontoFonte", each try Number.From([Array]{3}) otherwise null, type number),
+							F = Table.AddColumn(P, "Flag", each try Text.From([Array]{4}) otherwise null, type text),
+							Drop = Table.RemoveColumns(F, {"Array"}),
+							JoinRefs = Table.NestedJoin(Drop, {"IndicadorID"}, Refs, {"IndicadorID"}, "Ref", JoinKind.LeftOuter),
+							ExpRefs = Table.ExpandTableColumn(JoinRefs, "Ref", {"AnoRef", "ReferenciaRef"}, {"Ano", "Referencia"}),
+							C1 = Table.AddColumn(ExpRefs, "Nivel", each "Municipio", type text),
+							C2 = Table.AddColumn(C1, "CodTerritorio", each CodMun, type text),
+							C3 = Table.AddColumn(C2, "CodUF", each Text.Start(CodMun, 2), type text),
+							C4 = Table.AddColumn(C3, "CodMunicipio", each CodMun, type text),
+							C5 = Table.AddColumn(C4, "AvaliaveisFonte", each try Number.From(R[aval]) otherwise null, type number),
+							C6 = Table.AddColumn(C5, "AtingidosFonte", each try Number.From(R[ating]) otherwise null, type number),
+							C7 = Table.AddColumn(C6, "EscoreFonte", each try Number.From(R[escore]) otherwise null, type number),
+							C8 = Table.AddColumn(C7, "EscorePctFonte", each null, type number),
+							C9 = Table.AddColumn(C8, "GrupoFonte", each try Text.From(R[grupo]) otherwise null, type text),
+							C10 = Table.AddColumn(C9, "AlertaFonte", each try Text.From(R[alerta]) otherwise null, type text)
+						in
+							C10,
+					type table
+				),
+				Municipios = Table.Combine(ComLinhasMun[Linhas]),
+				Combinado = Table.Combine({UF, Municipios}),
+				Selecionadas = Table.SelectColumns(Combinado, {"Nivel", "CodTerritorio", "CodUF", "CodMunicipio", "IndicadorID", "Ano", "Numerador", "Denominador", "Valor", "Referencia", "PontoFonte", "Flag", "AvaliaveisFonte", "AtingidosFonte", "EscoreFonte", "EscorePctFonte", "GrupoFonte", "AlertaFonte"}),
+				Tipos = Table.TransformColumnTypes(Selecionadas, {{"Nivel", type text}, {"CodTerritorio", type text}, {"CodUF", type text}, {"CodMunicipio", type text}, {"IndicadorID", type text}, {"Ano", Int64.Type}, {"Numerador", type number}, {"Denominador", type number}, {"Valor", type number}, {"Referencia", type number}, {"PontoFonte", type number}, {"Flag", type text}, {"AvaliaveisFonte", type number}, {"AtingidosFonte", type number}, {"EscoreFonte", type number}, {"EscorePctFonte", type number}, {"GrupoFonte", type text}, {"AlertaFonte", type text}})
+			in
+				Tipos
