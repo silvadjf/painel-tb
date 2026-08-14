@@ -1,0 +1,92 @@
+table Dim_Municipio
+
+	column CodMunicipio
+		dataType: string
+		isKey
+		sourceColumn: CodMunicipio
+		summarizeBy: none
+
+	column CodIBGE7
+		dataType: string
+		sourceColumn: CodIBGE7
+		summarizeBy: none
+
+	column NomeMunicipio
+		dataType: string
+		dataCategory: City
+		sourceColumn: NomeMunicipio
+		summarizeBy: none
+
+	column CodUF
+		dataType: string
+		sourceColumn: CodUF
+		summarizeBy: none
+
+	column SiglaUF
+		dataType: string
+		sourceColumn: SiglaUF
+		summarizeBy: none
+
+	column AvaliaveisFonte
+		dataType: double
+		sourceColumn: AvaliaveisFonte
+		summarizeBy: none
+
+	column AtingidosFonte
+		dataType: double
+		sourceColumn: AtingidosFonte
+		summarizeBy: none
+
+	column EscoreFonte
+		dataType: double
+		sourceColumn: EscoreFonte
+		summarizeBy: none
+
+	column GrupoFonte
+		dataType: string
+		sourceColumn: GrupoFonte
+		summarizeBy: none
+
+	column AlertaFonte
+		dataType: string
+		sourceColumn: AlertaFonte
+		summarizeBy: none
+
+	partition Dim_Municipio = m
+		mode: import
+		source =
+			let
+				Fonte = Json.Document(Web.Contents("https://raw.githubusercontent.com/silvadjf/painel-tb/main/public/dados/municipios.json")),
+				M0 = Record.ToTable(Fonte[municipios]),
+				M1 = Table.RenameColumns(M0, {{"Name", "CodMunicipio"}, {"Value", "Registro"}}),
+				M2 = Table.AddColumn(M1, "CodUF", each Text.Start(Text.From([CodMunicipio]), 2), type text),
+				M3 = Table.AddColumn(M2, "SiglaUF", each try Text.From([Registro][uf]) otherwise null, type text),
+				M4 = Table.AddColumn(M3, "AvaliaveisFonte", each try Number.From([Registro][aval]) otherwise null, type number),
+				M5 = Table.AddColumn(M4, "AtingidosFonte", each try Number.From([Registro][ating]) otherwise null, type number),
+				M6 = Table.AddColumn(M5, "EscoreFonte", each try Number.From([Registro][escore]) otherwise null, type number),
+				M7 = Table.AddColumn(M6, "GrupoFonte", each try Text.From([Registro][grupo]) otherwise null, type text),
+				M8 = Table.AddColumn(M7, "AlertaFonte", each try Text.From([Registro][alerta]) otherwise null, type text),
+				CodigosUF = List.Sort(List.Distinct(M8[CodUF])),
+				IBGEPorUF = List.Transform(
+					CodigosUF,
+					(uf as text) =>
+						let
+							JsonUF = try Json.Document(Web.Contents("https://servicodados.ibge.gov.br", [RelativePath = "api/v1/localidades/estados/" & uf & "/municipios"])) otherwise {},
+							TabelaUF = if List.Count(JsonUF) = 0 then #table({"id", "nome"}, {}) else Table.FromRecords(JsonUF),
+							Campos = if Table.RowCount(TabelaUF) = 0 then TabelaUF else Table.SelectColumns(TabelaUF, {"id", "nome"}),
+							ComCod6 = Table.AddColumn(Campos, "CodMunicipio", each Text.Start(Text.From([id]), 6), type text),
+							ComCod7 = Table.AddColumn(ComCod6, "CodIBGE7", each Text.From([id]), type text),
+							Ren = Table.RenameColumns(ComCod7, {{"nome", "NomeMunicipio"}}),
+							Sel = Table.SelectColumns(Ren, {"CodMunicipio", "CodIBGE7", "NomeMunicipio"})
+						in
+							Sel
+				),
+				IBGE = if List.Count(IBGEPorUF) = 0 then #table({"CodMunicipio", "CodIBGE7", "NomeMunicipio"}, {}) else Table.Combine(IBGEPorUF),
+				Join = Table.NestedJoin(M8, {"CodMunicipio"}, IBGE, {"CodMunicipio"}, "IBGE", JoinKind.LeftOuter),
+				Exp = Table.ExpandTableColumn(Join, "IBGE", {"CodIBGE7", "NomeMunicipio"}, {"CodIBGE7", "NomeMunicipioIBGE"}),
+				NomeFinal = Table.AddColumn(Exp, "NomeMunicipio", each if [NomeMunicipioIBGE] = null then Text.From([CodMunicipio]) else [NomeMunicipioIBGE], type text),
+				Drop = Table.RemoveColumns(NomeFinal, {"Registro", "NomeMunicipioIBGE"}),
+				Sel = Table.SelectColumns(Drop, {"CodMunicipio", "CodIBGE7", "NomeMunicipio", "CodUF", "SiglaUF", "AvaliaveisFonte", "AtingidosFonte", "EscoreFonte", "GrupoFonte", "AlertaFonte"}),
+				Tipos = Table.TransformColumnTypes(Sel, {{"CodMunicipio", type text}, {"CodIBGE7", type text}, {"NomeMunicipio", type text}, {"CodUF", type text}, {"SiglaUF", type text}, {"AvaliaveisFonte", type number}, {"AtingidosFonte", type number}, {"EscoreFonte", type number}, {"GrupoFonte", type text}, {"AlertaFonte", type text}})
+			in
+				Tipos
