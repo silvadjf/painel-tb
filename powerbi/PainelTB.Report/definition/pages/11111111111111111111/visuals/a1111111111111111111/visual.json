@@ -1,0 +1,24 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "a1111111111111111111",
+  "position": {"x": 30, "y": 30, "z": 1000, "height": 150, "width": 1220, "tabOrder": 1000},
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {"field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Medidas"}}, "Property": "UFs Grupo 1"}}, "queryRef": "Medidas.UFs Grupo 1", "nativeQueryRef": "UFs Grupo 1"},
+            {"field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Medidas"}}, "Property": "UFs Grupo 2"}}, "queryRef": "Medidas.UFs Grupo 2", "nativeQueryRef": "UFs Grupo 2"},
+            {"field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Medidas"}}, "Property": "UFs Grupo 3"}}, "queryRef": "Medidas.UFs Grupo 3", "nativeQueryRef": "UFs Grupo 3"},
+            {"field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Medidas"}}, "Property": "UFs não classificáveis"}}, "queryRef": "Medidas.UFs não classificáveis", "nativeQueryRef": "UFs não classificáveis"}
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [{"properties": {"show": {"expr": {"Literal": {"Value": "true"}}}, "text": {"expr": {"Literal": {"Value": "'Classificação das 27 UFs'"}}}}}],
+      "subTitle": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}]
+    }
+  }
+}
