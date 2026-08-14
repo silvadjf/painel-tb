@@ -1,0 +1,79 @@
+table Dim_Indicador
+
+	column IndicadorID
+		dataType: string
+		isKey
+		sourceColumn: IndicadorID
+		summarizeBy: none
+
+	column Ordem
+		dataType: int64
+		sourceColumn: Ordem
+		summarizeBy: none
+
+	column Eixo
+		dataType: string
+		sourceColumn: Eixo
+		summarizeBy: none
+
+	column Nome
+		dataType: string
+		sourceColumn: Nome
+		summarizeBy: none
+
+	column NomeCurto
+		dataType: string
+		sourceColumn: NomeCurto
+		summarizeBy: none
+
+	column DetalheRepositorio
+		dataType: string
+		sourceColumn: DetalheRepositorio
+		summarizeBy: none
+
+	column DefinicaoClinicaCompleta
+		dataType: string
+		sourceColumn: DefinicaoClinicaCompleta
+		summarizeBy: none
+
+	column StatusDefinicao
+		dataType: string
+		sourceColumn: StatusDefinicao
+		summarizeBy: none
+
+	column AnoReferenciaBR
+		dataType: int64
+		sourceColumn: AnoReferenciaBR
+		summarizeBy: none
+
+	column ReferenciaBR
+		dataType: double
+		sourceColumn: ReferenciaBR
+		summarizeBy: none
+
+	partition Dim_Indicador = m
+		mode: import
+		source =
+			let
+				Meta = #table(
+					type table [IndicadorID = text, Ordem = Int64.Type, Eixo = text, Nome = text, NomeCurto = text, DetalheRepositorio = text, DefinicaoClinicaCompleta = text, StatusDefinicao = text],
+					{
+						{"I1", 1, "Prevenção", "Percentual de pessoas em tratamento preventivo da TB (TPT) com uso de esquema encurtado", "TPT esquema encurtado", "Rifapentina + Isoniazida (3HP) entre as pessoas em TPT.", "GAP — critérios completos de elegibilidade, período e filtros não estão no repositório.", "GAP"},
+						{"I2", 2, "Prevenção", "Cobertura estimada de TPT em pessoas vivendo com HIV/aids com CD4 ≤ 350", "TPT em PVHA (CD4 ≤ 350)", "Numerador da base de TPT; denominador de planilha externa CD4/Siscel.", "GAP — especificação completa do denominador externo e elegibilidade não está no repositório.", "GAP"},
+						{"I3", 3, "Prevenção", "Cobertura estimada de TPT em contatos elegíveis", "TPT em contatos", "Denominador estimado por premissa de contatos domiciliares e média de pessoas por domicílio.", "GAP — fórmula integral do proxy e parâmetros não estão no repositório.", "GAP"},
+						{"I4", 4, "Diagnóstico laboratorial", "Percentual de contatos examinados de casos novos de TB pulmonar com confirmação laboratorial", "Contatos examinados", "Contatos examinados / contatos identificados.", "GAP — filtros completos do caso índice, contatos e janela de avaliação não estão no repositório.", "GAP"},
+						{"I5", 5, "Diagnóstico laboratorial", "Percentual de casos de TB pulmonar com confirmação laboratorial", "Confirmação laboratorial", "", "GAP — definição clínica completa não está no repositório.", "GAP"},
+						{"I6", 6, "Diagnóstico laboratorial", "Percentual de casos novos de TB pulmonar com teste rápido molecular (TRM)", "Casos novos com TRM", "", "GAP — definição clínica completa não está no repositório.", "GAP"},
+						{"I7", 7, "Tratamento", "Percentual de casos de coinfecção TB-HIV em uso de terapia antirretroviral (TARV)", "Coinfecção TB-HIV em TARV", "", "GAP — definição clínica completa não está no repositório.", "GAP"},
+						{"I8", 8, "Tratamento", "Percentual de cura de casos novos de TB pulmonar com confirmação laboratorial", "Cura com confirmação lab.", "", "GAP — definição clínica completa não está no repositório.", "GAP"},
+						{"I9", 9, "Tratamento", "Percentual de sucesso de tratamento de casos novos de TB multirresistente/resistente à rifampicina", "Sucesso TB-RR/MDR", "Inclui desfechos Tratamento completo e Curado (Site-TB).", "GAP — demais filtros completos da população TB-RR/MDR e do período não estão no repositório.", "GAP"}
+					}
+				),
+				Fonte = Json.Document(Web.Contents("https://raw.githubusercontent.com/silvadjf/painel-tb/main/src/dados/indicadores.json")),
+				R0 = Record.ToTable(Fonte[brasil][indicadores]),
+				R1 = Table.ExpandRecordColumn(R0, "Value", {"ano", "ref"}, {"AnoReferenciaBR", "ReferenciaBR"}),
+				R2 = Table.RenameColumns(R1, {{"Name", "IndicadorID"}}),
+				Join = Table.NestedJoin(Meta, {"IndicadorID"}, R2, {"IndicadorID"}, "Ref", JoinKind.LeftOuter),
+				Exp = Table.ExpandTableColumn(Join, "Ref", {"AnoReferenciaBR", "ReferenciaBR"}, {"AnoReferenciaBR", "ReferenciaBR"})
+			in
+				Exp
