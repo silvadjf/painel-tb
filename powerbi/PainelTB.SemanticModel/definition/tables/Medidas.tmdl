@@ -1,0 +1,162 @@
+table Medidas
+
+	/// Valor do indicador no contexto territorial corrente.
+	measure 'Valor do indicador' = MAX(Fato_Indicadores[Valor])
+		formatString: 0.00
+
+	/// Referência nacional materializada no JSON de origem para o indicador.
+	measure 'Referência nacional' = MAX(Fato_Indicadores[Referencia])
+		formatString: 0.00
+
+	/// Ponto recalculado exclusivamente pela regra documentada: valor >= referência; denominador zero/ausente não é avaliável.
+	measure 'Ponto calculado' =
+			VAR Den = MAX(Fato_Indicadores[Denominador])
+			VAR Val = MAX(Fato_Indicadores[Valor])
+			VAR Ref = MAX(Fato_Indicadores[Referencia])
+			RETURN
+				IF(
+					ISBLANK(Den) || Den = 0 || ISBLANK(Val) || ISBLANK(Ref),
+					BLANK(),
+					IF(Val >= Ref, 1, 0)
+				)
+		formatString: 0
+
+	measure 'Indicadores avaliáveis base' =
+			SUMX(
+				VALUES(Dim_Indicador[IndicadorID]),
+				VAR P = CALCULATE([Ponto calculado])
+				RETURN IF(NOT ISBLANK(P), 1, 0)
+			)
+		formatString: 0
+
+	measure 'Escore base' =
+			SUMX(
+				VALUES(Dim_Indicador[IndicadorID]),
+				COALESCE(CALCULATE([Ponto calculado]), 0)
+			)
+		formatString: 0
+
+	measure 'Indicadores avaliáveis UF' =
+			CALCULATE(
+				[Indicadores avaliáveis base],
+				Fato_Indicadores[Nivel] = "UF",
+				REMOVEFILTERS(Dim_Municipio)
+			)
+		formatString: 0
+
+	measure 'Escore UF' =
+			CALCULATE(
+				[Escore base],
+				Fato_Indicadores[Nivel] = "UF",
+				REMOVEFILTERS(Dim_Municipio)
+			)
+		formatString: 0
+
+	measure 'EscorePct UF' = DIVIDE([Escore UF], [Indicadores avaliáveis UF]) * 100
+		formatString: 0.0
+
+	measure 'Grupo UF' =
+			VAR Aval = [Indicadores avaliáveis UF]
+			VAR Esc = [Escore UF]
+			RETURN
+				IF(
+					Aval < 6,
+					"Não classificável",
+					SWITCH(TRUE(), Esc >= 7, "Grupo 1", Esc >= 4, "Grupo 2", "Grupo 3")
+				)
+
+	measure 'Alerta instabilidade UF' =
+			VAR NInstaveis =
+				CALCULATE(
+					COUNTROWS(Fato_Indicadores),
+					Fato_Indicadores[Nivel] = "UF",
+					Fato_Indicadores[Denominador] > 0,
+					Fato_Indicadores[Denominador] < 20,
+					REMOVEFILTERS(Dim_Municipio)
+				)
+			RETURN IF(NInstaveis > 0, "⚠ Denominador < 20", "Sem alerta de instabilidade")
+
+	measure 'Indicadores avaliáveis Município' =
+			CALCULATE(
+				[Indicadores avaliáveis base],
+				Fato_Indicadores[Nivel] = "Municipio"
+			)
+		formatString: 0
+
+	measure 'Escore Município' =
+			CALCULATE(
+				[Escore base],
+				Fato_Indicadores[Nivel] = "Municipio"
+			)
+		formatString: 0
+
+	measure 'EscorePct Município' = DIVIDE([Escore Município], [Indicadores avaliáveis Município]) * 100
+		formatString: 0.0
+
+	/// Regra documentada 7/4/3. Mantida separada de Dim_Municipio[GrupoFonte] porque o JSON exploratório contém divergências.
+	measure 'Grupo Município pela regra documentada' =
+			VAR Aval = [Indicadores avaliáveis Município]
+			VAR Esc = [Escore Município]
+			RETURN
+				IF(
+					Aval < 6,
+					"Não classificável",
+					SWITCH(TRUE(), Esc >= 7, "Grupo 1", Esc >= 4, "Grupo 2", "Grupo 3")
+				)
+
+	measure 'Alerta instabilidade Município' =
+			VAR NInstaveis =
+				CALCULATE(
+					COUNTROWS(Fato_Indicadores),
+					Fato_Indicadores[Nivel] = "Municipio",
+					Fato_Indicadores[Denominador] > 0,
+					Fato_Indicadores[Denominador] < 20
+				)
+			RETURN IF(NInstaveis > 0, "⚠ Denominador < 20", "Sem alerta de instabilidade")
+
+	measure 'UFs Grupo 1' =
+			COUNTROWS(FILTER(VALUES(Dim_UF[CodUF]), CALCULATE([Grupo UF]) = "Grupo 1"))
+		formatString: 0
+
+	measure 'UFs Grupo 2' =
+			COUNTROWS(FILTER(VALUES(Dim_UF[CodUF]), CALCULATE([Grupo UF]) = "Grupo 2"))
+		formatString: 0
+
+	measure 'UFs Grupo 3' =
+			COUNTROWS(FILTER(VALUES(Dim_UF[CodUF]), CALCULATE([Grupo UF]) = "Grupo 3"))
+		formatString: 0
+
+	measure 'UFs não classificáveis' =
+			COUNTROWS(FILTER(VALUES(Dim_UF[CodUF]), CALCULATE([Grupo UF]) = "Não classificável"))
+		formatString: 0
+
+	measure 'Municípios Grupo 1 - fonte' = CALCULATE(COUNTROWS(Dim_Municipio), Dim_Municipio[GrupoFonte] = "Grupo 1")
+		formatString: 0
+
+	measure 'Municípios Grupo 2 - fonte' = CALCULATE(COUNTROWS(Dim_Municipio), Dim_Municipio[GrupoFonte] = "Grupo 2")
+		formatString: 0
+
+	measure 'Municípios Grupo 3 - fonte' = CALCULATE(COUNTROWS(Dim_Municipio), Dim_Municipio[GrupoFonte] = "Grupo 3")
+		formatString: 0
+
+	measure 'Municípios não classificáveis - fonte' = CALCULATE(COUNTROWS(Dim_Municipio), Dim_Municipio[GrupoFonte] = "Não classificável")
+		formatString: 0
+
+	measure 'Referência Brasil selecionada' =
+			CALCULATE(
+				MAX(Fato_Indicadores[Referencia]),
+				Fato_Indicadores[Nivel] = "Brasil",
+				REMOVEFILTERS(Dim_UF),
+				REMOVEFILTERS(Dim_Municipio)
+			)
+		formatString: 0.00
+
+	column Dummy
+		dataType: int64
+		isHidden
+		sourceColumn: Dummy
+		summarizeBy: none
+
+	partition Medidas = calculated
+		mode: import
+		source = ROW("Dummy", 1)
