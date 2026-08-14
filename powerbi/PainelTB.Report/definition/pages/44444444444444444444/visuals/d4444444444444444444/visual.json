@@ -1,0 +1,33 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "d4444444444444444444",
+  "position": {"x": 30, "y": 30, "z": 1000, "height": 640, "width": 1220, "tabOrder": 1000},
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Indicador"}}, "Property": "IndicadorID"}}, "queryRef": "Dim_Indicador.IndicadorID", "nativeQueryRef": "IndicadorID"},
+            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Indicador"}}, "Property": "Eixo"}}, "queryRef": "Dim_Indicador.Eixo", "nativeQueryRef": "Eixo"},
+            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Indicador"}}, "Property": "Nome"}}, "queryRef": "Dim_Indicador.Nome", "nativeQueryRef": "Nome"},
+            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Indicador"}}, "Property": "DetalheRepositorio"}}, "queryRef": "Dim_Indicador.DetalheRepositorio", "nativeQueryRef": "DetalheRepositorio"},
+            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Indicador"}}, "Property": "AnoReferenciaBR"}}, "queryRef": "Dim_Indicador.AnoReferenciaBR", "nativeQueryRef": "AnoReferenciaBR"},
+            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Indicador"}}, "Property": "ReferenciaBR"}}, "queryRef": "Dim_Indicador.ReferenciaBR", "nativeQueryRef": "ReferenciaBR"},
+            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Indicador"}}, "Property": "StatusDefinicao"}}, "queryRef": "Dim_Indicador.StatusDefinicao", "nativeQueryRef": "StatusDefinicao"},
+            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Indicador"}}, "Property": "DefinicaoClinicaCompleta"}}, "queryRef": "Dim_Indicador.DefinicaoClinicaCompleta", "nativeQueryRef": "DefinicaoClinicaCompleta"}
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Indicador"}}, "Property": "Ordem"}}, "direction": "Ascending"}
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [{"properties": {"show": {"expr": {"Literal": {"Value": "true"}}}, "text": {"expr": {"Literal": {"Value": "'I1–I9 — ficha disponível no repositório e GAPs de definição clínica'"}}}}}],
+      "subTitle": [{"properties": {"show": {"expr": {"Literal": {"Value": "true"}}}, "text": {"expr": {"Literal": {"Value": "'Nenhum critério clínico ausente foi inferido'"}}}}}]
+    }
+  }
+}
