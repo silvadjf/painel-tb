@@ -1,12 +1,12 @@
 {
-  "version": "2.0",
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/platform/platformProperties.json",
-  "config": {
-    "logicalId": "42302cb4-0be8-4a39-b445-8a53f8a7bb44"
-  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
     "type": "SemanticModel",
     "displayName": "Painel TB",
     "description": "Modelo semântico I1-I9 baseado nos mesmos JSON do painel web"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "42302cb4-0be8-4a39-b445-8a53f8a7bb44"
   }
 }
