@@ -1,0 +1,34 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "c3333333333333333333",
+  "position": {"x": 30, "y": 30, "z": 1000, "height": 640, "width": 1220, "tabOrder": 1000},
+  "visual": {
+    "visualType": "azureMap",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Municipio"}}, "Property": "NomeMunicipio"}}, "queryRef": "Dim_Municipio.NomeMunicipio", "nativeQueryRef": "NomeMunicipio"}
+          ]
+        },
+        "Series": {
+          "projections": [
+            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Municipio"}}, "Property": "GrupoFonte"}}, "queryRef": "Dim_Municipio.GrupoFonte", "nativeQueryRef": "GrupoFonte"}
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Municipio"}}, "Property": "SiglaUF"}}, "queryRef": "Dim_Municipio.SiglaUF", "nativeQueryRef": "SiglaUF"},
+            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Municipio"}}, "Property": "CodMunicipio"}}, "queryRef": "Dim_Municipio.CodMunicipio", "nativeQueryRef": "CodMunicipio"},
+            {"field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Medidas"}}, "Property": "Escore Município"}}, "queryRef": "Medidas.Escore Município", "nativeQueryRef": "Escore Município"},
+            {"field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Medidas"}}, "Property": "Indicadores avaliáveis Município"}}, "queryRef": "Medidas.Indicadores avaliáveis Município", "nativeQueryRef": "Indicadores avaliáveis Município"}
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [{"properties": {"show": {"expr": {"Literal": {"Value": "true"}}}, "text": {"expr": {"Literal": {"Value": "'Visão municipal — classificação exploratória'"}}}}}],
+      "subTitle": [{"properties": {"show": {"expr": {"Literal": {"Value": "true"}}}, "text": {"expr": {"Literal": {"Value": "'GrupoFonte preserva exatamente a classificação municipal do painel web; validar geocodificação no Desktop'"}}}}}]
+    }
+  }
+}
