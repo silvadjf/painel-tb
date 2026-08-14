@@ -1,0 +1,12 @@
+{
+  "version": "2.0",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/platform/platformProperties.json",
+  "config": {
+    "logicalId": "744fbd21-1fae-47a7-b82e-ff2cc07e753e"
+  },
+  "metadata": {
+    "type": "Report",
+    "displayName": "Painel TB",
+    "description": "Monitoramento estratégico I1-I9 do Plano Nacional pelo Fim da Tuberculose"
+  }
+}
