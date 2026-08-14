@@ -18,8 +18,6 @@
         },
         "Tooltips": {
           "projections": [
-            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Municipio"}}, "Property": "SiglaUF"}}, "queryRef": "Dim_Municipio.SiglaUF", "nativeQueryRef": "SiglaUF"},
-            {"field": {"Column": {"Expression": {"SourceRef": {"Entity": "Dim_Municipio"}}, "Property": "CodMunicipio"}}, "queryRef": "Dim_Municipio.CodMunicipio", "nativeQueryRef": "CodMunicipio"},
             {"field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Medidas"}}, "Property": "Escore Município"}}, "queryRef": "Medidas.Escore Município", "nativeQueryRef": "Escore Município"},
             {"field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Medidas"}}, "Property": "Indicadores avaliáveis Município"}}, "queryRef": "Medidas.Indicadores avaliáveis Município", "nativeQueryRef": "Indicadores avaliáveis Município"}
           ]
