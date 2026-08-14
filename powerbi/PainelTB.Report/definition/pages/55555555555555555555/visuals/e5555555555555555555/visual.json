@@ -1,0 +1,31 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "e5555555555555555555",
+  "position": {"x": 40, "y": 35, "z": 1000, "height": 640, "width": 1200, "tabOrder": 1000},
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {"textRuns": [{"value": "Metodologia — indicador composto do Painel TB", "textStyle": {"fontFamily": "Segoe UI Semibold", "fontSize": "24px", "color": "#111827"}}], "horizontalTextAlignment": "left"},
+              {"textRuns": [{"value": "\nFonte da regra: implementação do painel web e docs/fonte_da_verdade.md. O Power BI não redefine os indicadores clínicos; importa os mesmos numeradores, denominadores, valores e referências já calculados.", "textStyle": {"fontFamily": "Segoe UI", "fontSize": "13px", "color": "#344054"}}], "horizontalTextAlignment": "left"},
+              {"textRuns": [{"value": "\nPontuação: indicador avaliável recebe 1 ponto quando valor ≥ referência nacional e 0 caso contrário. Denominador zero é não avaliável e não pontua. O Brasil é referência nacional e não recebe pontuação.", "textStyle": {"fontFamily": "Segoe UI", "fontSize": "13px", "color": "#344054"}}], "horizontalTextAlignment": "left"},
+              {"textRuns": [{"value": "\nEscore e grupos: o escore é a soma dos pontos. Grupo 1: escore ≥ 7; Grupo 2: 4–6; Grupo 3: 0–3; Não classificável: menos de 6 indicadores avaliáveis.", "textStyle": {"fontFamily": "Segoe UI", "fontSize": "13px", "color": "#344054"}}], "horizontalTextAlignment": "left"},
+              {"textRuns": [{"value": "\nEstabilidade: há alerta quando pelo menos um indicador avaliável possui denominador < 20. A flag do denominador armazenada na fonte é preservada para auditoria.", "textStyle": {"fontFamily": "Segoe UI", "fontSize": "13px", "color": "#344054"}}], "horizontalTextAlignment": "left"},
+              {"textRuns": [{"value": "\nMunicípios: a classificação é exploratória e não oficial. I2 municipal possui apenas numerador e não pontua; I3 usa denominador estimado/proxy; I1 em Santa Catarina está parcial. GrupoFonte é preservado exatamente como no JSON municipal. Como há divergências entre alguns GrupoFonte municipais e os cortes documentados, o modelo também expõe separadamente ‘Grupo Município pela regra documentada’, sem substituir a fonte.", "textStyle": {"fontFamily": "Segoe UI", "fontSize": "13px", "color": "#344054"}}], "horizontalTextAlignment": "left"},
+              {"textRuns": [{"value": "\nGAP clínico: o repositório contém nomes e alguns detalhes dos I1–I9, mas não contém, para todos eles, a qualificação clínica integral com critérios de inclusão/exclusão, variáveis, recodificações e tratamento de ignorados. Esses elementos permanecem pendentes de confirmação da CGTM e não foram inventados neste projeto.", "textStyle": {"fontFamily": "Segoe UI Semibold", "fontSize": "13px", "color": "#7A271A"}}], "horizontalTextAlignment": "left"}
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+      "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+      "title": [{"properties": {"show": {"expr": {"Literal": {"Value": "true"}}}, "text": {"expr": {"Literal": {"Value": "'Metodologia e regras de classificação'"}}}}}],
+      "padding": [{"properties": {"top": {"expr": {"Literal": {"Value": "0D"}}}, "bottom": {"expr": {"Literal": {"Value": "0D"}}}, "left": {"expr": {"Literal": {"Value": "0D"}}}, "right": {"expr": {"Literal": {"Value": "0D"}}}}}]
+    }
+  }
+}
