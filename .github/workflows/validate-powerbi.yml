@@ -1,0 +1,50 @@
+name: Validate Power BI project
+
+on:
+  push:
+    paths:
+      - 'powerbi/**'
+      - 'tools/validar_powerbi.py'
+      - 'tools/critico_powerbi.py'
+      - 'docs/fonte_da_verdade.md'
+      - 'docs/metodologia.md'
+      - '.github/workflows/validate-powerbi.yml'
+  pull_request:
+    paths:
+      - 'powerbi/**'
+      - 'tools/validar_powerbi.py'
+      - 'tools/critico_powerbi.py'
+      - 'docs/fonte_da_verdade.md'
+      - 'docs/metodologia.md'
+      - '.github/workflows/validate-powerbi.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install JSON Schema validator
+        run: python -m pip install --disable-pip-version-check jsonschema
+
+      - name: Run bounded critic
+        run: python tools/critico_powerbi.py
+
+      - name: Upload validation reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: powerbi-validation
+          path: |
+            docs/validacao_powerbi.json
+            docs/relatorio_critico.md
+            docs/municipios_presentes.csv
+          if-no-files-found: warn
