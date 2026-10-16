@@ -118,7 +118,7 @@ export default function SecaoMunicipal({ estados, brasil, tema }) {
     <div className="secao-municipal">
       <div className="aviso-exploratorio">
         <strong>⚠ Classificação exploratória — não oficial.</strong> Todos os municípios
-        classificáveis possuem alerta metodológico (denominador instável e/ou proxy).
+        classificáveis possuem alerta metodológico (denominador em cautela e/ou proxy). Só são classificados municípios com mais de 100 mil habitantes e ao menos um indicador avaliável (denominador ≥ 20) em cada categoria.
         I2 é proxy (numerador por município de tratamento, denominador de PVHA com CD4 &lt; 350 por residência); I3 usa denominador estimado;
         I1 em SC está parcial (base local sem código IBGE municipal). Use os indicadores
         individuais, com numerador e denominador, como leitura principal.
@@ -174,7 +174,7 @@ export default function SecaoMunicipal({ estados, brasil, tema }) {
                   Clique em um município para ver os nove indicadores com numerador,
                   denominador, valor, referência nacional, ponto e estabilidade do
                   denominador. Municípios em cinza não possuem registro na base ou não
-                  são classificáveis (menos de 6 indicadores avaliáveis).
+                  são classificáveis (até 100 mil habitantes ou sem indicador avaliável em alguma das três categorias).
                 </p>
               </section>
             </aside>

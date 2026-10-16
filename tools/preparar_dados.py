@@ -42,6 +42,13 @@ FLAG_ABREV = {
     "denominador_ausente": "x",
 }
 ALERTA_ABREV = {
+    # regras pactuadas (out/2026): denominador < 20 não pontua; classificação só para
+    # municípios > 100 mil hab. com indicador avaliável nas 3 categorias
+    "classificação_suspensa_população_até_100_mil": "sp",
+    "classificação_suspensa_sem_indicador_avaliável_nas_3_categorias": "sc",
+    "classificação_com_indicador_em_cautela_e_proxy_metodológico": "cp",
+    "classificação_com_indicador_em_cautela": "c",
+    # regra exploratória anterior (>= 6 indicadores avaliáveis)
     "classificação_suspensa_por_baixa_avaliabilidade": "s",
     "classificação_com_indicador_instável_e_proxy_metodológico": "ip",
     "classificação_com_proxy_metodológico": "p",
@@ -79,6 +86,7 @@ def preparar_municipios(origem, destino):
                     "alerta": ALERTA_ABREV.get(linha["ALERTA_CLASSIFICACAO"].strip(), "?"),
                     "inst": num(linha.get("N_INDICADORES_DEN_INSTAVEL", "")),
                     "proxy": num(linha.get("N_INDICADORES_PROXY", "")),
+                    "pop": num(linha.get("POPULACAO", "")),
                     "ind": {},
                 },
             )

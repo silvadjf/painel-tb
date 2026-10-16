@@ -40,7 +40,11 @@ export default function Metodos({ tema }) {
           Denominadores pequenos podem gerar instabilidade classificatória — especialmente no
           indicador de sucesso de tratamento de TB-RR/MDR. A classificação territorial recebe
           alerta (⚠) quando há pelo menos um indicador avaliável com denominador instável
-          (&lt; 20). Territórios com menos de 6 indicadores avaliáveis não são classificados.
+          (&lt; 20). UF com menos de 6 indicadores avaliáveis não são classificadas. No nível municipal
+          (exploratório), indicadores com denominador &lt; 20 não pontuam, e só são classificados
+          municípios com mais de 100 mil habitantes e ao menos um indicador avaliável em cada
+          categoria (Prevenção – TPT; Diagnóstico e investigação de contatos; Tratamento e atenção
+          integral), pelo mesmo corte de pontos das UF.
         </p>
       </div>
 

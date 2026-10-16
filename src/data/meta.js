@@ -83,17 +83,18 @@ export const ROTULO_FLAG = {
 
 // rótulos da base municipal exploratória (códigos abreviados no JSON)
 export const ALERTA_MUN = {
-  s: 'classificação suspensa por baixa avaliabilidade',
-  ip: 'indicador com denominador instável + proxy metodológico',
+  sp: 'não classificado: população até 100 mil habitantes',
+  sc: 'não classificado: sem indicador avaliável nas três categorias',
+  cp: 'indicador com denominador em cautela (20–49) + proxy metodológico',
   p: 'proxy metodológico',
-  i: 'indicador com denominador instável',
+  c: 'indicador com denominador em cautela (20–49)',
   ok: 'sem alerta de denominador',
 };
 
 export const FLAG_MUN = {
   z: 'denominador zero (não avaliável)',
-  e: 'denominador instável extremo (1–4)',
-  i: 'denominador instável (5–19)',
+  e: 'denominador 1–4 (não avaliável)',
+  i: 'denominador 5–19 (não avaliável)',
   c: 'cautela (denominador 20–49)',
   a: 'denominador adequado (≥ 50)',
   x: 'denominador ausente',
