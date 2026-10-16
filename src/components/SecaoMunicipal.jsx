@@ -57,7 +57,7 @@ function DetalheMunicipio({ cod, mun, nome, brasil, tema, onFechar }) {
                   </span>
                   <span className={ponto === 1 ? 'ponto-ok' : 'ponto-nok'}>
                     {valor == null
-                      ? i.id === 'I2' ? 'não pontua' : 'não avaliável'
+                      ? 'não avaliável'
                       : `${fmt(valor)}% ${ponto == null ? '· sem ponto' : ponto === 1 ? '● 1' : '○ 0'}`}
                   </span>
                 </div>
@@ -74,7 +74,7 @@ function DetalheMunicipio({ cod, mun, nome, brasil, tema, onFechar }) {
         </div>
         <p className="lateral-texto" style={{ marginTop: 12 }}>
           Numerador/denominador entre parênteses · traço vertical: referência nacional ·
-          I2 possui apenas numerador municipal · I3 usa denominador estimado (proxy).
+          I2 combina numerador por município de tratamento e denominador por residência (proxy) · I3 usa denominador estimado (proxy).
         </p>
       </section>
     </aside>
@@ -119,7 +119,7 @@ export default function SecaoMunicipal({ estados, brasil, tema }) {
       <div className="aviso-exploratorio">
         <strong>⚠ Classificação exploratória — não oficial.</strong> Todos os municípios
         classificáveis possuem alerta metodológico (denominador instável e/ou proxy).
-        I2 entra apenas como numerador (não pontua); I3 usa denominador estimado;
+        I2 é proxy (numerador por município de tratamento, denominador de PVHA com CD4 &lt; 350 por residência); I3 usa denominador estimado;
         I1 em SC está parcial (base local sem código IBGE municipal). Use os indicadores
         individuais, com numerador e denominador, como leitura principal.
       </div>

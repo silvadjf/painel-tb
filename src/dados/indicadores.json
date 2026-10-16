@@ -1,5 +1,5 @@
 {
- "geradoEm": "2026-07-09",
+ "geradoEm": "2026-10-15",
  "fonte": "base_analitica_indicador_composto_long_28abr26.csv",
  "brasil": {
   "cod": "BR",
@@ -26,9 +26,9 @@
    "I2": {
     "ano": 2025,
     "num": 7878.0,
-    "den": 61383.0,
-    "valor": 12.83,
-    "ref": 12.83,
+    "den": 86601.0,
+    "valor": 9.1,
+    "ref": 9.1,
     "ponto": null,
     "flag": "adequado_den_50_mais"
    },
@@ -123,9 +123,9 @@
     "I2": {
      "ano": 2025,
      "num": 71.0,
-     "den": 169.0,
-     "valor": 42.01,
-     "ref": 12.83,
+     "den": 242.0,
+     "valor": 29.34,
+     "ref": 9.1,
      "ponto": 1.0,
      "flag": "adequado_den_50_mais"
     },
@@ -219,9 +219,9 @@
     "I2": {
      "ano": 2025,
      "num": 134.0,
-     "den": 913.0,
-     "valor": 14.68,
-     "ref": 12.83,
+     "den": 1197.0,
+     "valor": 11.19,
+     "ref": 9.1,
      "ponto": 1.0,
      "flag": "adequado_den_50_mais"
     },
@@ -315,9 +315,9 @@
     "I2": {
      "ano": 2025,
      "num": 29.0,
-     "den": 347.0,
-     "valor": 8.36,
-     "ref": 12.83,
+     "den": 469.0,
+     "valor": 6.18,
+     "ref": 9.1,
      "ponto": 0.0,
      "flag": "adequado_den_50_mais"
     },
@@ -411,9 +411,9 @@
     "I2": {
      "ano": 2025,
      "num": 583.0,
-     "den": 2627.0,
-     "valor": 22.19,
-     "ref": 12.83,
+     "den": 3292.0,
+     "valor": 17.71,
+     "ref": 9.1,
      "ponto": 1.0,
      "flag": "adequado_den_50_mais"
     },
@@ -507,9 +507,9 @@
     "I2": {
      "ano": 2025,
      "num": 228.0,
-     "den": 3184.0,
-     "valor": 7.16,
-     "ref": 12.83,
+     "den": 4098.0,
+     "valor": 5.56,
+     "ref": 9.1,
      "ponto": 0.0,
      "flag": "adequado_den_50_mais"
     },
@@ -603,9 +603,9 @@
     "I2": {
      "ano": 2025,
      "num": 297.0,
-     "den": 2430.0,
-     "valor": 12.22,
-     "ref": 12.83,
+     "den": 3323.0,
+     "valor": 8.94,
+     "ref": 9.1,
      "ponto": 0.0,
      "flag": "adequado_den_50_mais"
     },
@@ -699,9 +699,9 @@
     "I2": {
      "ano": 2025,
      "num": 51.0,
-     "den": 617.0,
-     "valor": 8.27,
-     "ref": 12.83,
+     "den": 767.0,
+     "valor": 6.65,
+     "ref": 9.1,
      "ponto": 0.0,
      "flag": "adequado_den_50_mais"
     },
@@ -795,9 +795,9 @@
     "I2": {
      "ano": 2025,
      "num": 109.0,
-     "den": 1235.0,
-     "valor": 8.83,
-     "ref": 12.83,
+     "den": 1642.0,
+     "valor": 6.64,
+     "ref": 9.1,
      "ponto": 0.0,
      "flag": "adequado_den_50_mais"
     },
@@ -891,9 +891,9 @@
     "I2": {
      "ano": 2025,
      "num": 245.0,
-     "den": 1787.0,
-     "valor": 13.71,
-     "ref": 12.83,
+     "den": 2467.0,
+     "valor": 9.93,
+     "ref": 9.1,
      "ponto": 1.0,
      "flag": "adequado_den_50_mais"
     },
@@ -987,9 +987,9 @@
     "I2": {
      "ano": 2025,
      "num": 292.0,
-     "den": 2075.0,
-     "valor": 14.07,
-     "ref": 12.83,
+     "den": 2850.0,
+     "valor": 10.25,
+     "ref": 9.1,
      "ponto": 1.0,
      "flag": "adequado_den_50_mais"
     },
@@ -1083,9 +1083,9 @@
     "I2": {
      "ano": 2025,
      "num": 99.0,
-     "den": 1343.0,
-     "valor": 7.37,
-     "ref": 12.83,
+     "den": 1993.0,
+     "valor": 4.97,
+     "ref": 9.1,
      "ponto": 0.0,
      "flag": "adequado_den_50_mais"
     },
@@ -1179,9 +1179,9 @@
     "I2": {
      "ano": 2025,
      "num": 90.0,
-     "den": 1286.0,
-     "valor": 7.0,
-     "ref": 12.83,
+     "den": 1825.0,
+     "valor": 4.93,
+     "ref": 9.1,
      "ponto": 0.0,
      "flag": "adequado_den_50_mais"
     },
@@ -1275,9 +1275,9 @@
     "I2": {
      "ano": 2025,
      "num": 661.0,
-     "den": 3541.0,
-     "valor": 18.67,
-     "ref": 12.83,
+     "den": 5280.0,
+     "valor": 12.52,
+     "ref": 9.1,
      "ponto": 1.0,
      "flag": "adequado_den_50_mais"
     },
@@ -1371,9 +1371,9 @@
     "I2": {
      "ano": 2025,
      "num": 243.0,
-     "den": 3656.0,
-     "valor": 6.65,
-     "ref": 12.83,
+     "den": 5316.0,
+     "valor": 4.57,
+     "ref": 9.1,
      "ponto": 0.0,
      "flag": "adequado_den_50_mais"
     },
@@ -1467,9 +1467,9 @@
     "I2": {
      "ano": 2025,
      "num": 155.0,
-     "den": 828.0,
-     "valor": 18.72,
-     "ref": 12.83,
+     "den": 1112.0,
+     "valor": 13.94,
+     "ref": 9.1,
      "ponto": 1.0,
      "flag": "adequado_den_50_mais"
     },
@@ -1563,9 +1563,9 @@
     "I2": {
      "ano": 2025,
      "num": 249.0,
-     "den": 3978.0,
-     "valor": 6.26,
-     "ref": 12.83,
+     "den": 5156.0,
+     "valor": 4.83,
+     "ref": 9.1,
      "ponto": 0.0,
      "flag": "adequado_den_50_mais"
     },
@@ -1659,9 +1659,9 @@
     "I2": {
      "ano": 2025,
      "num": 283.0,
-     "den": 2228.0,
-     "valor": 12.7,
-     "ref": 12.83,
+     "den": 3113.0,
+     "valor": 9.09,
+     "ref": 9.1,
      "ponto": 0.0,
      "flag": "adequado_den_50_mais"
     },
@@ -1737,9 +1737,9 @@
    "sigla": "PI",
    "regiao": "Nordeste",
    "avaliaveis": 9.0,
-   "atingidos": 2.0,
-   "escore": 2.0,
-   "escorePct": 22.2222222222222,
+   "atingidos": 3.0,
+   "escore": 3.0,
+   "escorePct": 33.3333333333333,
    "grupo": "Grupo 3",
    "alerta": "classificação_com_indicador_instável",
    "indicadores": {
@@ -1755,10 +1755,10 @@
     "I2": {
      "ano": 2025,
      "num": 87.0,
-     "den": 741.0,
-     "valor": 11.74,
-     "ref": 12.83,
-     "ponto": 0.0,
+     "den": 821.0,
+     "valor": 10.6,
+     "ref": 9.1,
+     "ponto": 1.0,
      "flag": "adequado_den_50_mais"
     },
     "I3": {
@@ -1851,9 +1851,9 @@
     "I2": {
      "ano": 2025,
      "num": 129.0,
-     "den": 893.0,
-     "valor": 14.45,
-     "ref": 12.83,
+     "den": 1228.0,
+     "valor": 10.5,
+     "ref": 9.1,
      "ponto": 1.0,
      "flag": "adequado_den_50_mais"
     },
@@ -1947,9 +1947,9 @@
     "I2": {
      "ano": 2025,
      "num": 487.0,
-     "den": 5739.0,
-     "valor": 8.49,
-     "ref": 12.83,
+     "den": 8003.0,
+     "valor": 6.09,
+     "ref": 9.1,
      "ponto": 0.0,
      "flag": "adequado_den_50_mais"
     },
@@ -2043,9 +2043,9 @@
     "I2": {
      "ano": 2025,
      "num": 737.0,
-     "den": 6200.0,
-     "valor": 11.89,
-     "ref": 12.83,
+     "den": 8710.0,
+     "valor": 8.46,
+     "ref": 9.1,
      "ponto": 0.0,
      "flag": "adequado_den_50_mais"
     },
@@ -2139,9 +2139,9 @@
     "I2": {
      "ano": 2025,
      "num": 75.0,
-     "den": 556.0,
-     "valor": 13.49,
-     "ref": 12.83,
+     "den": 742.0,
+     "valor": 10.11,
+     "ref": 9.1,
      "ponto": 1.0,
      "flag": "adequado_den_50_mais"
     },
@@ -2235,9 +2235,9 @@
     "I2": {
      "ano": 2025,
      "num": 110.0,
-     "den": 407.0,
-     "valor": 27.03,
-     "ref": 12.83,
+     "den": 593.0,
+     "valor": 18.55,
+     "ref": 9.1,
      "ponto": 1.0,
      "flag": "adequado_den_50_mais"
     },
@@ -2331,9 +2331,9 @@
     "I2": {
      "ano": 2025,
      "num": 281.0,
-     "den": 3078.0,
-     "valor": 9.13,
-     "ref": 12.83,
+     "den": 5015.0,
+     "valor": 5.6,
+     "ref": 9.1,
      "ponto": 0.0,
      "flag": "adequado_den_50_mais"
     },
@@ -2427,9 +2427,9 @@
     "I2": {
      "ano": 2025,
      "num": 37.0,
-     "den": 515.0,
-     "valor": 7.18,
-     "ref": 12.83,
+     "den": 655.0,
+     "valor": 5.65,
+     "ref": 9.1,
      "ponto": 0.0,
      "flag": "adequado_den_50_mais"
     },
@@ -2523,9 +2523,9 @@
     "I2": {
      "ano": 2025,
      "num": 2020.0,
-     "den": 10654.0,
-     "valor": 18.96,
-     "ref": 12.83,
+     "den": 16168.0,
+     "valor": 12.49,
+     "ref": 9.1,
      "ponto": 1.0,
      "flag": "adequado_den_50_mais"
     },
@@ -2619,9 +2619,9 @@
     "I2": {
      "ano": 2025,
      "num": 96.0,
-     "den": 356.0,
-     "valor": 26.97,
-     "ref": 12.83,
+     "den": 524.0,
+     "valor": 18.32,
+     "ref": 9.1,
      "ponto": 1.0,
      "flag": "adequado_den_50_mais"
     },
